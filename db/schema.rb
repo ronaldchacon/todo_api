@@ -16,16 +16,17 @@ ActiveRecord::Schema.define(version: 20161216092925) do
   enable_extension "plpgsql"
 
   create_table "lists", force: :cascade do |t|
-    t.string   "name"
+    t.string   "title",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "tasks", force: :cascade do |t|
     t.integer  "list_id"
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "title",       null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.index ["list_id"], name: "index_tasks_on_list_id", using: :btree
   end
 
