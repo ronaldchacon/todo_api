@@ -122,4 +122,24 @@ RSpec.describe 'Lists', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/lists/:id' do
+    context 'with existing resource' do
+      before { get "/api/v1/lists/#{personal.id}" }
+      it 'gets HTTP status 200' do
+        expect(response.status).to eq 200
+      end
+
+      it 'receives the "Personal List" as JSON' do
+        expect(json_body['data']['id']).to eq personal.id.to_s
+      end
+    end
+
+    context 'with nonexistent resource' do
+      it 'gets HTTP status 404' do
+        get '/api/v1/lists/999999999'
+        expect(response.status).to eq 404
+      end
+    end
+  end
 end
