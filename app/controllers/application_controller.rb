@@ -16,4 +16,8 @@ class ApplicationController < ActionController::API
     paginator = Paginator.new(scope, request.query_parameters)
     paginator.paginate
   end
+
+  def sort(scope)
+    Sorter.new(scope, params).sort
+  end
 end
