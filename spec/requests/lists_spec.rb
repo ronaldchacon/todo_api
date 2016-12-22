@@ -96,5 +96,30 @@ RSpec.describe 'Lists', type: :request do
         end
       end
     end
+
+    describe 'filtering' do
+      context 'with valid filtering param "q[title_cont]=Personal"' do
+        it 'receives "Personal List" back' do
+          get('/api/v1/lists?q[title_cont]=Personal')
+          expect(json_body['data'].first['id'].to_i).to eq personal.id
+          expect(json_body['data'].size).to eq 1
+        end
+      end
+
+      context 'with invalid filtering param "q[ftitle_cont]=Personal"' do
+        before { get('/api/v1/lists?q[ftitle_cont]=Personal') }
+        it 'gets "400 Bad Request" back' do
+          expect(response.status).to eq 400
+        end
+
+        it 'receives an error' do
+          expect(json_body['error']).to_not be nil
+        end
+
+        it 'receives "q[ftitle_cont]=Personal" as an invalid param' do
+          expect(json_body['error']['invalid_params']).to eq 'q[ftitle_cont]=Personal'
+        end
+      end
+    end
   end
 end
