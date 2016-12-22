@@ -3,6 +3,11 @@ class ApplicationController < ActionController::API
 
   protected
 
+  def orchestrate_query(scope, actions = :all)
+    QueryOrchestrator.new(scope: scope, params: params, request: request,
+                          response: response, actions: actions).run
+  end
+
   def query_builder_error(error)
     render status: 400, json: {
       error: {
@@ -10,18 +15,5 @@ class ApplicationController < ActionController::API
         invalid_params: error.invalid_params
       }
     }
-  end
-
-  def paginate(scope)
-    paginator = Paginator.new(scope, request.query_parameters)
-    paginator.paginate
-  end
-
-  def sort(scope)
-    Sorter.new(scope, params).sort
-  end
-
-  def filter(scope)
-    Filter.new(scope, params.to_unsafe_hash).filter
   end
 end
