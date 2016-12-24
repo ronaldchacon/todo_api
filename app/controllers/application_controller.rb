@@ -21,4 +21,9 @@ class ApplicationController < ActionController::API
   def resource_not_found
     render(status: 404)
   end
+
+  def respond_with_errors(object)
+    render json: { errors: ErrorSerializer.serialize(object) },
+           status: :unprocessable_entity
+  end
 end

@@ -37,7 +37,7 @@ RSpec.describe 'Lists', type: :request do
         end
 
         it 'receives links object with "next" link' do
-          expected = "http://www.example.com/api/v1/lists?page[number]=2&page[size]=2"
+          expected = 'http://www.example.com/api/v1/lists?page[number]=2&page[size]=2'
           expect(URI.unescape(json_body['links']['next'])).to eq expected
         end
       end
@@ -138,6 +138,123 @@ RSpec.describe 'Lists', type: :request do
     context 'with nonexistent resource' do
       it 'gets HTTP status 404' do
         get '/api/v1/lists/999999999'
+        expect(response.status).to eq 404
+      end
+    end
+  end
+
+  describe 'POST /api/v1/lists' do
+    before { post '/api/v1/lists', params: { data: params } }
+    context 'with valid parameters' do
+      let(:params) do
+        {
+          type: 'lists',
+          attributes: attributes_for(:personal, created_at: Time.current)
+        }
+      end
+      it 'gets HTTP status 201' do
+        expect(response.status).to eq 201
+      end
+
+      it 'receives the newly created resource' do
+        expect(json_body['data']['attributes']['title']).to eq 'Personal List'
+      end
+
+      it 'adds a record in the database' do
+        expect(List.count).to eq 1
+      end
+
+      it 'gets the new resource location in the Location header' do
+        expect(response.headers['Location']).to eq(
+          "http://www.example.com/api/v1/lists/#{List.first.id}"
+        )
+      end
+    end
+
+    context 'with invalid parameters' do
+      let(:params) do
+        {
+          attributes: { title: '' }
+        }
+      end
+
+      it 'gets HTTP status 422' do
+        expect(response.status).to eq 422
+      end
+
+      it 'gets error details' do
+        expect(response.body)
+          .to have_jsonapi_errors_for('/data/attributes/title')
+      end
+
+      it 'does not add a record in the database' do
+        expect(List.count).to eq 0
+      end
+    end
+  end
+
+  describe 'PATCH /api/v1/lists/:id' do
+    before { patch "/api/v1/lists/#{personal.id}", params: { data: params } }
+    context 'with valid parameters' do
+      let(:params) do
+        {
+          type: 'lists',
+          attributes: attributes_for(:personal, title: 'My Personal List')
+        }
+      end
+
+      it 'gets HTTP status 200' do
+        expect(response.status).to eq 200
+      end
+
+      it 'receives the updated resource' do
+        expect(json_body['data']['attributes']['title'])
+          .to eq 'My Personal List'
+      end
+
+      it 'updates the record in the database' do
+        expect(List.first.title).to eq 'My Personal List'
+      end
+    end
+
+    context 'with invalid parameters' do
+      let(:params) do
+        {
+          attributes: { title: '' }
+        }
+      end
+
+      it 'gets HTTP status 422' do
+        expect(response.status).to eq 422
+      end
+
+      it 'receives error details' do
+        expect(response.body)
+          .to have_jsonapi_errors_for('/data/attributes/title')
+      end
+
+      it 'does not add a record in the database' do
+        expect(List.first.title).to eq 'Personal List'
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/lists/:id' do
+    context 'with existing resource' do
+      before { delete "/api/v1/lists/#{personal.id}" }
+
+      it 'gets HTTP status 204' do
+        expect(response.status).to eq 204
+      end
+
+      it 'deletes the book from the database' do
+        expect(List.count).to eq 0
+      end
+    end
+
+    context 'with nonexistent resource' do
+      it 'gets HTTP status 404' do
+        delete '/api/v1/lists/999999999'
         expect(response.status).to eq 404
       end
     end
