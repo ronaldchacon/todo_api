@@ -13,8 +13,8 @@ class ApplicationController < ActionController::API
     render status: 400, json: {
       error: {
         message: error.message,
-        invalid_params: error.invalid_params
-      }
+        invalid_params: error.invalid_params,
+      },
     }
   end
 

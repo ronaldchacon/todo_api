@@ -5,7 +5,7 @@ module ErrorSerializer
         {
           status: 422,
           source: { pointer: "/data/attributes/#{field}" },
-          detail: error_message
+          detail: error_message,
         }
       end
     end.flatten

@@ -2,7 +2,7 @@ module V1
   class ListsController < ApplicationController
     def index
       @lists = orchestrate_query(List.includes(:tasks).all)
-      render json: @lists, include: ['tasks'], status: 200
+      render json: @lists, include: ["tasks"], status: 200
     end
 
     def show
