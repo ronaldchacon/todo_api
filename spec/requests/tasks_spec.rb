@@ -129,9 +129,9 @@ RSpec.describe "Tasks", type: :request do
     end
   end
 
-  describe "GET /api/v1/lists/:list_id/tasks/:id" do
+  describe "GET /api/v1/tasks/:id" do
     context "with existing resource" do
-      before { get "/api/v1/lists/#{personal.id}/tasks/#{task1.id}" }
+      before { get "/api/v1/tasks/#{task1.id}" }
       it "gets HTTP status 200" do
         expect(response.status).to eq 200
       end
@@ -143,7 +143,7 @@ RSpec.describe "Tasks", type: :request do
 
     context "with nonexistent resource" do
       it "gets HTTP status 404" do
-        get "/api/v1/lists/999999999/tasks/999999999"
+        get "/api/v1/tasks/999999999"
         expect(response.status).to eq 404
       end
     end
@@ -178,7 +178,7 @@ RSpec.describe "Tasks", type: :request do
 
       it "gets the new resource location in the Location header" do
         expect(response.headers["Location"]).to eq(
-          "http://www.example.com/api/v1/lists/#{personal.id}/tasks/#{Task.first.id}",
+          "http://www.example.com/api/v1/tasks/#{Task.first.id}",
         )
       end
     end
@@ -205,10 +205,9 @@ RSpec.describe "Tasks", type: :request do
     end
   end
 
-  describe "PATCH /api/v1/lists/:list_id/tasks/:id" do
+  describe "PATCH /api/v1/tasks/:id" do
     before do
-      patch "/api/v1/lists/#{personal.id}/tasks/#{task1.id}",
-            params: { data: params }
+      patch "/api/v1/tasks/#{task1.id}", params: { data: params }
     end
 
     context "with valid parameters" do
@@ -255,9 +254,9 @@ RSpec.describe "Tasks", type: :request do
     end
   end
 
-  describe "DELETE /api/v1/lists/:list_id/tasks/:id" do
+  describe "DELETE /api/v1/tasks/:id" do
     context "with existing resource" do
-      before { delete "/api/v1/lists/#{personal.id}/tasks/#{task1.id}" }
+      before { delete "/api/v1/tasks/#{task1.id}" }
 
       it "gets HTTP status 204" do
         expect(response.status).to eq 204
@@ -270,7 +269,7 @@ RSpec.describe "Tasks", type: :request do
 
     context "with nonexistent resource" do
       it "gets HTTP status 404" do
-        delete "/api/v1/lists/999999999/tasks/999999999"
+        delete "/api/v1/tasks/999999999"
         expect(response.status).to eq 404
       end
     end

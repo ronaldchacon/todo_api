@@ -7,8 +7,7 @@ module V1
     end
 
     def show
-      @list = List.find_by!(id: params[:list_id])
-      @task = @list.tasks.find_by!(id: params[:id])
+      @task = Task.find_by!(id: params[:id])
       render json: @task, include: ["list"], status: 200
     end
 
@@ -17,27 +16,23 @@ module V1
       attributes = task_attributes.merge(list_id: @list.id)
       @task = Task.new(attributes)
       if @task.save
-        render json: @task, status: :created,
-               location: v1_list_task_url(@list, @task)
+        render json: @task, status: :created, location: v1_task_url(@task)
       else
         respond_with_errors(@task)
       end
     end
 
     def update
-      @list = List.find_by!(id: params[:list_id])
-      @task = @list.tasks.find_by!(id: params[:id])
+      @task = Task.find_by!(id: params[:id])
       if @task.update(task_attributes)
-        render json: @task, status: :ok,
-               location: v1_list_task_url(@list, @task)
+        render json: @task, status: :ok, location: v1_task_url(@task)
       else
         respond_with_errors(@task)
       end
     end
 
     def destroy
-      @list = List.find_by!(id: params[:list_id])
-      @task = @list.tasks.find_by!(id: params[:id]).destroy
+      Task.find_by!(id: params[:id]).destroy
       render status: :no_content
     end
 
