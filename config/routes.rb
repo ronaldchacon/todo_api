@@ -5,7 +5,8 @@ Rails.application.routes.draw do
         resources :tasks, only: [:index, :create]
       end
       resources :tasks, only: [:show, :update, :destroy] do
-        resources :completions, controller: "tasks/completions", only: :update
+        patch "/complete", to: "tasks/completions#complete"
+        patch "/uncomplete", to: "tasks/completions#uncomplete"
       end
     end
   end

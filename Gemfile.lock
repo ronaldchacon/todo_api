@@ -47,6 +47,9 @@ GEM
     byebug (9.0.6)
     concurrent-ruby (1.0.2)
     database_cleaner (1.5.3)
+    date_validator (0.9.0)
+      activemodel
+      activesupport
     diff-lcs (1.2.5)
     erubis (2.7.0)
     factory_girl (4.7.0)
@@ -158,6 +161,7 @@ DEPENDENCIES
   active_model_serializers
   byebug
   database_cleaner
+  date_validator
   factory_girl_rails
   kaminari
   listen (~> 3.0.5)

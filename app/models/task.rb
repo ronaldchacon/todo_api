@@ -3,6 +3,7 @@ class Task < ApplicationRecord
 
   validates :title, presence: true
   validates :list_id, presence: true
+  validates :completed_at, date: { allow_blank: true }
 
   @sort_attributes = %w(id title)
   @filter_attributes = %w(id title created_at)
