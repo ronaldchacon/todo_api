@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   scope :api do
     namespace :v1 do
       resources :lists do
@@ -10,4 +11,5 @@ Rails.application.routes.draw do
       end
     end
   end
+  root to: "v1/lists#index"
 end
