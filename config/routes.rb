@@ -9,7 +9,7 @@ Rails.application.routes.draw do
         patch "/complete", to: "tasks/completions#complete"
         patch "/uncomplete", to: "tasks/completions#uncomplete"
       end
-      resources :users, only: [:show]
+      resources :users, only: [:show, :create, :update, :destroy]
     end
   end
   root to: "v1/lists#index"
