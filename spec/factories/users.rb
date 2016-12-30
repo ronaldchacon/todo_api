@@ -3,6 +3,9 @@ FactoryGirl.define do
     email "user@foobar.com"
     password "foobar"
     password_confirmation "foobar"
-    confirmed_at { Time.current }
+
+    trait :with_confirmation_token do
+      confirmation_token "123"
+    end
   end
 end

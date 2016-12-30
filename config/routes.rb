@@ -10,6 +10,8 @@ Rails.application.routes.draw do
         patch "/uncomplete", to: "tasks/completions#uncomplete"
       end
       resources :users, only: [:show, :create, :update, :destroy]
+      resources :confirmations, controller: "users/confirmations", only: :show,
+                                param: :confirmation_token
     end
   end
   root to: "v1/lists#index"

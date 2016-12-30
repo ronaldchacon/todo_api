@@ -19,6 +19,7 @@ end
 
 group :development do
   gem "awesome_print"
+  gem "letter_opener"
   gem "listen", "~> 3.0.5"
   gem "pry-byebug"
   gem "pry-rails"
