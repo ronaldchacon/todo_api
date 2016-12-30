@@ -41,8 +41,4 @@ module Authentication
   def current_user
     @current_user ||= access_token.try(:user)
   end
-
-  def secure_compare_with_hashing(a, b)
-    secure_compare(Digest::SHA1.hexdigest(a), Digest::SHA1.hexdigest(b))
-  end
 end
