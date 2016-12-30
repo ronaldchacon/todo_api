@@ -1,5 +1,7 @@
 module V1
   class ListsController < ApplicationController
+    before_action :authenticate_user
+
     def index
       @lists = orchestrate_query(List.includes(:tasks).all)
       render json: @lists, include: ["tasks"], status: 200

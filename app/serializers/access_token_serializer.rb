@@ -1,7 +1,3 @@
 class AccessTokenSerializer < ActiveModel::Serializer
-  attributes :id, :token, :user_id
-
-  def token
-    :token
-  end
+  attributes :id, :user_id
 end

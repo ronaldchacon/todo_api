@@ -1,4 +1,6 @@
 RSpec.describe "Users", type: :request do
+  include_context "Skip Auth"
+  
   let(:user) { create(:user) }
 
   describe "GET api/v1/users/:id" do

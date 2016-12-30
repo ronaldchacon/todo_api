@@ -1,6 +1,8 @@
 module V1
   module Tasks
     class CompletionsController < ApplicationController
+      before_action :authenticate_user
+
       def complete
         @task = Task.find_by!(id: params[:task_id])
         if @task.update(task_attributes)

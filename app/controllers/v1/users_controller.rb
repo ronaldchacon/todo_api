@@ -1,5 +1,7 @@
 module V1
   class UsersController < ApplicationController
+    before_action :authenticate_user, except: :create
+
     def show
       @user = User.find_by!(id: params[:id])
       render json: @user, status: 200

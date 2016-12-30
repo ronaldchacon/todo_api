@@ -1,4 +1,6 @@
 RSpec.describe "Tasks::Completions", type: :request do
+  include_context "Skip Auth"
+  
   let(:task) { create(:task) }
 
   describe "PATCH /api/v1/tasks/:task_id/complete" do

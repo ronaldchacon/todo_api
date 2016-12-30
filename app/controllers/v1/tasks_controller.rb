@@ -1,5 +1,7 @@
 module V1
   class TasksController < ApplicationController
+    before_action :authenticate_user
+    
     def index
       @list = List.find_by!(id: params[:list_id])
       @tasks = orchestrate_query(@list.tasks)
