@@ -12,6 +12,9 @@ Rails.application.routes.draw do
       resources :users, only: [:show, :create, :update, :destroy]
       resources :confirmations, controller: "users/confirmations", only: :show,
                                 param: :confirmation_token
+      resources :password_resets, controller: "users/password_resets",
+                                  only: [:show, :create, :update],
+                                  param: :reset_token
     end
   end
   root to: "v1/lists#index"
