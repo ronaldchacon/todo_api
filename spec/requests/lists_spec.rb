@@ -1,9 +1,9 @@
 RSpec.describe "Lists", type: :request do
   include_context "Skip Auth"
-
-  let(:personal) { create(:personal) }
-  let(:work) { create(:work) }
-  let(:school) { create(:school) }
+  let(:user) { create(:user) }
+  let(:personal) { create(:personal, user: user) }
+  let(:work) { create(:work, user: user) }
+  let(:school) { create(:school, user: user) }
 
   let(:lists) { [personal, work, school] }
 

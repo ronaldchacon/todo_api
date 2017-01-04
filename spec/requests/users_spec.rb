@@ -1,7 +1,5 @@
 RSpec.describe "Users", type: :request do
   include_context "Skip Auth"
-  
-  let(:user) { create(:user) }
 
   describe "GET api/v1/users/:id" do
     context "with existing resource" do
@@ -30,7 +28,7 @@ RSpec.describe "Users", type: :request do
       let(:params) do
         {
           type: "users",
-          attributes: attributes_for(:user),
+          attributes: attributes_for(:user, email: "user@example.com"),
         }
       end
       it "gets HTTP status 201" do
@@ -39,16 +37,16 @@ RSpec.describe "Users", type: :request do
 
       it "receives the newly created resource" do
         expect(json_body["data"]["attributes"]["email"]).
-          to eq "user@foobar.com"
+          to eq "user@example.com"
       end
 
       it "adds a record in the database" do
-        expect(User.count).to eq 1
+        expect(User.count).to eq 2
       end
 
       it "gets the new resource location in the Location header" do
         expect(response.headers["Location"]).to eq(
-          "http://www.example.com/api/v1/users/#{User.first.id}",
+          "http://www.example.com/api/v1/users/#{User.last.id}",
         )
       end
     end
@@ -70,7 +68,7 @@ RSpec.describe "Users", type: :request do
       end
 
       it "does not add a record in the database" do
-        expect(User.count).to eq 0
+        expect(User.count).to eq 1
       end
     end
   end

@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  has_many :access_tokens
+  has_many :access_tokens, dependent: :destroy
+  has_many :lists
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
