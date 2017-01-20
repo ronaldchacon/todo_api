@@ -1,7 +1,7 @@
 RSpec.describe "Tasks", type: :request do
   include_context "Skip Auth"
-  
-  let(:personal) { create(:personal) }
+
+  let(:personal) { create(:personal, user: user) }
   let(:task1) { create(:task, title: "Task One", list: personal) }
   let(:task2) { create(:task, title: "Task Two", list: personal) }
   let(:task3) { create(:task, title: "Task Three", list: personal) }

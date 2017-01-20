@@ -4,7 +4,7 @@ module V1
       before_action :authenticate_user
 
       def complete
-        @task = Task.find_by!(id: params[:task_id])
+        @task = current_user.tasks.find_by!(id: params[:task_id])
         if @task.update(task_attributes)
           render json: @task, status: :ok, location: v1_task_url(@task)
         else
@@ -13,7 +13,7 @@ module V1
       end
 
       def uncomplete
-        @task = Task.find_by!(id: params[:task_id])
+        @task = current_user.tasks.find_by!(id: params[:task_id])
         if @task.update(task_attributes)
           render json: @task, status: :ok, location: v1_task_url(@task)
         else
